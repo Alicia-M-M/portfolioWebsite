@@ -1,34 +1,41 @@
 import React, { Component } from 'react';
 import Work from './WorkComponent';
 import WorkInfo from './WorkInfoComponent';
-import { View } from 'react-native';
-import { EXAMPLES } from '../shared/examples';
+import { View, Platform } from 'react-native';
+import { createStackNavigator } from 'react-navigation-stack';
+import { createAppContainer } from 'react-navigation';
+
+const WorkNavigator = createStackNavigator(
+    {
+        Work: { screen: Work },
+        WorkInfo: { screen:  WorkInfo }
+    }, 
+    {
+        initialRouteName: 'Work',
+        defaultNavigationOptions: {
+            headerStyle: {
+                backgroundColor: '#A1CFCD'
+            },
+            headerTintColor: '#FFFFFF',
+            headerTitleStyle: {
+                color: '#FFFFFF'
+            }
+        }
+    }
+);
+
+const AppNavigator = createAppContainer(WorkNavigator);
+
 
 class Main extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            examples: EXAMPLES,
-            selectedExample: null
-
-        };
-    }
-
-    onExampleSelect(exampleId) {
-        this.setState({ selectedExample: exampleId });
-    }
-
     render() {
         return (
-            <View style={{ flex: 1 }}>
-                <Work
-                    examples={this.state.examples}
-                    onPress={exampleId => this.onExampleSelect(exampleId)}
-                />
-                <WorkInfo
-                    example={this.state.examples.filter(
-                        example => example.id === this.state.selectedExample)[0]}
-                />
+            <View
+                style={{
+                    flex: 1,
+                    paddingTop: Platform.OS === 'ios' ? 0 : Expo.Constants.statusBarHeight
+            }}>
+                <AppNavigator />
             </View>
         );
     }
