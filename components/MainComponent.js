@@ -1,44 +1,51 @@
 import React, { Component } from 'react';
-import Work from './WorkComponent';
-import WorkInfo from './WorkInfoComponent';
-import { View, Platform } from 'react-native';
-import { createStackNavigator } from 'react-navigation-stack';
-import { createAppContainer } from 'react-navigation';
+import { View, Text, StyleSheet } from 'react-native';
+import Home from './HomeComponent';
+import Header from './HeaderComponent';
+import About from './AboutComponent';
+import Tester from './testerComponent';
+import { HERO } from '../shared/hero';
+import { ABOUTINFO } from '../shared/aboutInfo';
+import { SafeAreaView } from 'react-navigation';
+import { ScrollView } from 'react-native-gesture-handler';
 
-const WorkNavigator = createStackNavigator(
-    {
-        Work: { screen: Work },
-        WorkInfo: { screen:  WorkInfo }
-    }, 
-    {
-        initialRouteName: 'Work',
-        defaultNavigationOptions: {
-            headerStyle: {
-                backgroundColor: '#A1CFCD'
-            },
-            headerTintColor: '#FFFFFF',
-            headerTitleStyle: {
-                color: '#FFFFFF'
-            }
-        }
-    }
-);
-
-const AppNavigator = createAppContainer(WorkNavigator);
-
+// without state
+// function Main() {
+//     return (
+//         <SafeAreaView
+//         forceInset={{top:'always', horizontal:'never'}}>
+//             <View>
+//                 <Header />
+//                 <Home />
+//                 <About />
+//             </View>
+//         </SafeAreaView>
+//     )
+// }
 
 class Main extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            hero: HERO,
+            aboutInfo: ABOUTINFO
+        }
+    }
+
     render() {
         return (
-            <View
-                style={{
-                    flex: 1,
-                    paddingTop: Platform.OS === 'ios' ? 0 : Expo.Constants.statusBarHeight
-            }}>
-                <AppNavigator />
-            </View>
-        );
+            <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
+                <Header />
+                <ScrollView>
+                    <Home hero={this.state.hero} />
+                    <About aboutInfo={this.state.aboutInfo} />
+                    <About aboutInfo={this.state.aboutInfo} />
+                </ScrollView>
+            </SafeAreaView>
+        )
     }
 }
+
+
 
 export default Main;
