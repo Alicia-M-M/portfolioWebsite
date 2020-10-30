@@ -1,9 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Button } from 'react-native';
 
 function Header() {
     return (
-
         <View style={styles.header}>
             <View>
                 <Text style={styles.text}>ALICIA MORLEY</Text>
@@ -29,6 +28,5 @@ const styles = StyleSheet.create({
     }
 }
 );
-
 
 export default Header;

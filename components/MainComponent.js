@@ -1,15 +1,72 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
 import Home from './HomeComponent';
 import Header from './HeaderComponent';
-import About from './AboutComponent';
-import Tester from './testerComponent';
-import { HERO } from '../shared/hero';
-import { ABOUTINFO } from '../shared/aboutInfo';
+import Contact from './ContactComponent';
+import Work from './WorkComponent';
 import { SafeAreaView } from 'react-navigation';
-import { ScrollView } from 'react-native-gesture-handler';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { createAppContainer } from 'react-navigation';
 
-// without state
+const WorkTab = createBottomTabNavigator(
+    {
+        HOME: Home,
+        WORK: Work,
+        CONTACT: Contact,
+    },
+    {
+        tabBarOptions: {
+            inactiveTintColor:'#FFFFFF',
+            activeTintColor: '#A1CFCD',
+            labelStyle: {
+                fontSize: 15,
+            },
+            style: {
+                backgroundColor: '#779A98',
+                height:70,
+                paddingBottom:14,
+            },
+        },
+    }
+
+);
+
+const AppNav = createAppContainer(WorkTab);
+
+class Main extends Component {
+
+    // constructor(props) {
+    //     super(props);
+    //     this.state = {
+    //         hero: HERO,
+    //         aboutInfo: ABOUTINFO
+    //     }
+    // }
+    // move constructor with state to relevant components
+
+    render() {
+        return (
+            <>
+                <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
+                    <Header />
+                </SafeAreaView>
+                <AppNav />
+            </>
+        )
+    }
+}
+
+export default Main;
+
+
+// with state 
+// {/* <ScrollView>
+//        <Home hero={this.state.hero} />
+//       <About aboutInfo={this.state.aboutInfo} />
+//            <Work />
+//           </ScrollView>
+
+
+            // without state and nav
 // function Main() {
 //     return (
 //         <SafeAreaView
@@ -22,30 +79,3 @@ import { ScrollView } from 'react-native-gesture-handler';
 //         </SafeAreaView>
 //     )
 // }
-
-class Main extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            hero: HERO,
-            aboutInfo: ABOUTINFO
-        }
-    }
-
-    render() {
-        return (
-            <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
-                <Header />
-                <ScrollView>
-                    <Home hero={this.state.hero} />
-                    <About aboutInfo={this.state.aboutInfo} />
-                    <About aboutInfo={this.state.aboutInfo} />
-                </ScrollView>
-            </SafeAreaView>
-        )
-    }
-}
-
-
-
-export default Main;
