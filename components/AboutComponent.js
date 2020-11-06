@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
-import { Image } from 'react-native-elements';
+import { View, Text, StyleSheet, FlatList, ImageBackground, Button, TouchableHighlight } from 'react-native';
+import { Card } from 'react-native-elements';
 import { ABOUTINFO } from '../shared/aboutInfo';
 
 class About extends Component {
@@ -8,23 +8,33 @@ class About extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            aboutInfo: ABOUTINFO
+            aboutInfo: ABOUTINFO,
+            modalVisible: false
         }
     }
 
-    render() {
-        renderAboutGraphic = ({ item }) => {
-            return (
-                <View style={styles.background}>
-                    <Image style={styles.aboutImage}
-                        source={item.img}>
-                        <Text>{item.title}</Text>
-                        <Text>{item.imgHeader}</Text>
-                        <Text>{item.imgtext}</Text>
-                    </Image>
+    setModalVisible = (visible) => {
+        this.setState({ modalVisible: visible });
+    }
+
+    renderAboutGraphic = ({ item }) => {
+        return (
+            <Card style={styles.background}
+            >
+                <ImageBackground
+                    style={styles.backgroundimage}
+                    source={item.img} style={styles.aboutImage}>
+                    <Text style={styles.aboutTitle}>{item.title}</Text>
+                </ImageBackground>
+                <View style={styles.textBox}>
+                    <Text style={styles.textMainheader}>{item.imgheader}</Text>
+                    <Text>{item.imgtext}</Text>
                 </View>
-            );
-        }
+            </Card>
+        );
+    }
+
+    render() {
         return (
             <View style={styles.background}>
                 <View style={styles.aboutIntroText}>
@@ -33,9 +43,14 @@ class About extends Component {
                 </View>
                 <FlatList
                     data={this.state.aboutInfo}
-                    renderItem={renderAboutGraphic}
+                    renderItem={this.renderAboutGraphic}
                     keyExtractor={item => item.id.toString()}
                 />
+                <View style={styles.button}>
+                    <Button
+                        title='DOWNLOAD MY RESUME'
+                        color='#A1CFCD' />
+                </View>
             </View>
         )
     }
@@ -50,19 +65,40 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        
+
+
     },
     aboutImage: {
-        paddingTop: 500,
+        height: 300,
     },
+
     aboutIntroText: {
         backgroundColor: '#FCF9ED',
         width: 400,
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        padding:50,
-    }
+        padding: 50,
+    },
+    button: {
+        paddingTop: 30,
+        paddingBottom: 35,
+    },
+    aboutTitle: {
+        textAlign: 'center',
+        fontSize: 20,
+    },
+    textBox: {
+        alignItems: 'center'
+    },
+    textMainheader: {
+        fontSize: 15,
+        fontWeight: 'bold',
+        paddingTop: 10,
+        paddingBottom: 5
+    },
+    backgroundimage: {
+    },
 }
 )
 
@@ -70,7 +106,7 @@ const styles = StyleSheet.create({
 // as a function not a class
 // function About(props) {
 
-//     renderAboutGraphic = ({ item }) => {
+//     renderAboutGraphic = ({item}) => {
 //         return (
 //             <View style={styles.homeContainer}>
 //                 <Image style={styles.homeImage}
